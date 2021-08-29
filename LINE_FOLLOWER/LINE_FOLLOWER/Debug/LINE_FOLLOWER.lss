@@ -1,0 +1,310 @@
+
+LINE_FOLLOWER.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         0000015c  00000000  00000000  00000054  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .debug_aranges 00000020  00000000  00000000  000001b0  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  2 .debug_pubnames 00000047  00000000  00000000  000001d0  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  3 .debug_info   0000023b  00000000  00000000  00000217  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  4 .debug_abbrev 00000114  00000000  00000000  00000452  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  5 .debug_line   0000025f  00000000  00000000  00000566  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_frame  00000060  00000000  00000000  000007c8  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_str    00000107  00000000  00000000  00000828  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_loc    00000140  00000000  00000000  0000092f  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_ranges 00000048  00000000  00000000  00000a6f  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	0c 94 2a 00 	jmp	0x54	; 0x54 <__ctors_end>
+   4:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+   8:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+   c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  10:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  14:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  18:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  1c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  20:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  24:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  28:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  2c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  30:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  34:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  38:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  3c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  40:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  44:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  48:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  4c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  50:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+
+00000054 <__ctors_end>:
+  54:	11 24       	eor	r1, r1
+  56:	1f be       	out	0x3f, r1	; 63
+  58:	cf e5       	ldi	r28, 0x5F	; 95
+  5a:	d8 e0       	ldi	r29, 0x08	; 8
+  5c:	de bf       	out	0x3e, r29	; 62
+  5e:	cd bf       	out	0x3d, r28	; 61
+  60:	0e 94 5a 00 	call	0xb4	; 0xb4 <main>
+  64:	0c 94 ac 00 	jmp	0x158	; 0x158 <_exit>
+
+00000068 <__bad_interrupt>:
+  68:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
+
+0000006c <TurnRight>:
+
+	}
+}
+
+void TurnRight(void) {
+	PORTA &= ~(1<<PINA0);
+  6c:	eb e3       	ldi	r30, 0x3B	; 59
+  6e:	f0 e0       	ldi	r31, 0x00	; 0
+  70:	80 81       	ld	r24, Z
+  72:	8e 7f       	andi	r24, 0xFE	; 254
+  74:	80 83       	st	Z, r24
+	PORTA |= (1<<PINA1);
+  76:	80 81       	ld	r24, Z
+  78:	82 60       	ori	r24, 0x02	; 2
+  7a:	80 83       	st	Z, r24
+}
+  7c:	08 95       	ret
+
+0000007e <TurnLeft>:
+
+void TurnLeft(void) {
+	PORTA |= (1<<PINA0);
+  7e:	eb e3       	ldi	r30, 0x3B	; 59
+  80:	f0 e0       	ldi	r31, 0x00	; 0
+  82:	80 81       	ld	r24, Z
+  84:	81 60       	ori	r24, 0x01	; 1
+  86:	80 83       	st	Z, r24
+	PORTA &= ~(1<<PINA1);
+  88:	80 81       	ld	r24, Z
+  8a:	8d 7f       	andi	r24, 0xFD	; 253
+  8c:	80 83       	st	Z, r24
+}
+  8e:	08 95       	ret
+
+00000090 <Fwd>:
+
+void Fwd (void)
+{
+	PORTA |= (1<<PINA0);
+  90:	eb e3       	ldi	r30, 0x3B	; 59
+  92:	f0 e0       	ldi	r31, 0x00	; 0
+  94:	80 81       	ld	r24, Z
+  96:	81 60       	ori	r24, 0x01	; 1
+  98:	80 83       	st	Z, r24
+	PORTA |= (1<<PINA1);
+  9a:	80 81       	ld	r24, Z
+  9c:	82 60       	ori	r24, 0x02	; 2
+  9e:	80 83       	st	Z, r24
+}
+  a0:	08 95       	ret
+
+000000a2 <Stop>:
+
+void Stop (void) {
+	PORTA &= ~(1<<PINA0);
+  a2:	eb e3       	ldi	r30, 0x3B	; 59
+  a4:	f0 e0       	ldi	r31, 0x00	; 0
+  a6:	80 81       	ld	r24, Z
+  a8:	8e 7f       	andi	r24, 0xFE	; 254
+  aa:	80 83       	st	Z, r24
+	PORTA &= ~(1<<PINA1);
+  ac:	80 81       	ld	r24, Z
+  ae:	8d 7f       	andi	r24, 0xFD	; 253
+  b0:	80 83       	st	Z, r24
+  b2:	08 95       	ret
+
+000000b4 <main>:
+void TurnLeft (void);
+void Stop (void);
+void Fwd (void);
+
+int main(void)
+{
+  b4:	ef 92       	push	r14
+  b6:	ff 92       	push	r15
+  b8:	0f 93       	push	r16
+  ba:	1f 93       	push	r17
+  bc:	cf 93       	push	r28
+  be:	df 93       	push	r29
+	/* Setting both pinD0 and pinD1 to 0 to be input (sensors) */
+	DDRD &= ~(1<<PIND0); /* Right */
+  c0:	e1 e3       	ldi	r30, 0x31	; 49
+  c2:	f0 e0       	ldi	r31, 0x00	; 0
+  c4:	80 81       	ld	r24, Z
+  c6:	8e 7f       	andi	r24, 0xFE	; 254
+  c8:	80 83       	st	Z, r24
+	DDRD &= ~(1<<PIND1); /* Left */
+  ca:	80 81       	ld	r24, Z
+  cc:	8d 7f       	andi	r24, 0xFD	; 253
+  ce:	80 83       	st	Z, r24
+	
+	/* Setting both pinA0 and pinA1 to be output (motors) */
+	DDRA |= (1<<PINA0); /* Right */
+  d0:	ea e3       	ldi	r30, 0x3A	; 58
+  d2:	f0 e0       	ldi	r31, 0x00	; 0
+  d4:	80 81       	ld	r24, Z
+  d6:	81 60       	ori	r24, 0x01	; 1
+  d8:	80 83       	st	Z, r24
+	DDRA |= (1<<PINA1); /* Left */
+  da:	80 81       	ld	r24, Z
+  dc:	82 60       	ori	r24, 0x02	; 2
+  de:	80 83       	st	Z, r24
+  e0:	20 ed       	ldi	r18, 0xD0	; 208
+  e2:	37 e0       	ldi	r19, 0x07	; 7
+    milliseconds can be achieved.
+ */
+void
+_delay_loop_2(uint16_t __count)
+{
+	__asm__ volatile (
+  e4:	c8 ec       	ldi	r28, 0xC8	; 200
+  e6:	d0 e0       	ldi	r29, 0x00	; 0
+
+    while(1)
+    {
+		_delay_ms(200);
+
+		if ((PIND & 0b00000001) == 0x00)
+  e8:	00 e3       	ldi	r16, 0x30	; 48
+  ea:	10 e0       	ldi	r17, 0x00	; 0
+			_delay_ms(200);
+		}
+
+		if ((PIND & 0b00000000) == 0x00)
+		{
+			Stop();
+  ec:	0f 2e       	mov	r0, r31
+  ee:	f0 ed       	ldi	r31, 0xD0	; 208
+  f0:	ef 2e       	mov	r14, r31
+  f2:	f7 e0       	ldi	r31, 0x07	; 7
+  f4:	ff 2e       	mov	r15, r31
+  f6:	f0 2d       	mov	r31, r0
+  f8:	05 c0       	rjmp	.+10     	; 0x104 <main+0x50>
+  fa:	ce 01       	movw	r24, r28
+  fc:	01 97       	sbiw	r24, 0x01	; 1
+  fe:	f1 f7       	brne	.-4      	; 0xfc <main+0x48>
+		__ticks = (uint16_t) (__ms * 10.0);
+		while(__ticks)
+		{
+			// wait 1/10 ms
+			_delay_loop_2(((F_CPU) / 4e3) / 10);
+			__ticks --;
+ 100:	21 50       	subi	r18, 0x01	; 1
+ 102:	30 40       	sbci	r19, 0x00	; 0
+		__ticks = 1;
+	else if (__tmp > 65535)
+	{
+		//	__ticks = requested delay in 1/10 ms
+		__ticks = (uint16_t) (__ms * 10.0);
+		while(__ticks)
+ 104:	21 15       	cp	r18, r1
+ 106:	31 05       	cpc	r19, r1
+ 108:	c1 f7       	brne	.-16     	; 0xfa <main+0x46>
+
+    while(1)
+    {
+		_delay_ms(200);
+
+		if ((PIND & 0b00000001) == 0x00)
+ 10a:	f8 01       	movw	r30, r16
+ 10c:	80 81       	ld	r24, Z
+ 10e:	80 fd       	sbrc	r24, 0
+ 110:	09 c0       	rjmp	.+18     	; 0x124 <main+0x70>
+		{
+			TurnRight();
+ 112:	0e 94 36 00 	call	0x6c	; 0x6c <TurnRight>
+ 116:	97 01       	movw	r18, r14
+ 118:	ce 01       	movw	r24, r28
+ 11a:	01 97       	sbiw	r24, 0x01	; 1
+ 11c:	f1 f7       	brne	.-4      	; 0x11a <main+0x66>
+		{
+			// wait 1/10 ms
+			_delay_loop_2(((F_CPU) / 4e3) / 10);
+			__ticks --;
+ 11e:	21 50       	subi	r18, 0x01	; 1
+ 120:	30 40       	sbci	r19, 0x00	; 0
+		__ticks = 1;
+	else if (__tmp > 65535)
+	{
+		//	__ticks = requested delay in 1/10 ms
+		__ticks = (uint16_t) (__ms * 10.0);
+		while(__ticks)
+ 122:	d1 f7       	brne	.-12     	; 0x118 <main+0x64>
+			_delay_ms(200);
+		}
+		
+		if ((PIND & 0b00000010) == 0x00)
+ 124:	f8 01       	movw	r30, r16
+ 126:	80 81       	ld	r24, Z
+ 128:	81 fd       	sbrc	r24, 1
+ 12a:	09 c0       	rjmp	.+18     	; 0x13e <main+0x8a>
+		{
+			TurnLeft();
+ 12c:	0e 94 3f 00 	call	0x7e	; 0x7e <TurnLeft>
+ 130:	97 01       	movw	r18, r14
+ 132:	ce 01       	movw	r24, r28
+ 134:	01 97       	sbiw	r24, 0x01	; 1
+ 136:	f1 f7       	brne	.-4      	; 0x134 <main+0x80>
+		{
+			// wait 1/10 ms
+			_delay_loop_2(((F_CPU) / 4e3) / 10);
+			__ticks --;
+ 138:	21 50       	subi	r18, 0x01	; 1
+ 13a:	30 40       	sbci	r19, 0x00	; 0
+		__ticks = 1;
+	else if (__tmp > 65535)
+	{
+		//	__ticks = requested delay in 1/10 ms
+		__ticks = (uint16_t) (__ms * 10.0);
+		while(__ticks)
+ 13c:	d1 f7       	brne	.-12     	; 0x132 <main+0x7e>
+			_delay_ms(200);
+		}
+
+		if ((PIND & 0b00000000) == 0x00)
+ 13e:	f8 01       	movw	r30, r16
+ 140:	80 81       	ld	r24, Z
+		{
+			Stop();
+ 142:	0e 94 51 00 	call	0xa2	; 0xa2 <Stop>
+ 146:	97 01       	movw	r18, r14
+ 148:	ce 01       	movw	r24, r28
+ 14a:	01 97       	sbiw	r24, 0x01	; 1
+ 14c:	f1 f7       	brne	.-4      	; 0x14a <main+0x96>
+		{
+			// wait 1/10 ms
+			_delay_loop_2(((F_CPU) / 4e3) / 10);
+			__ticks --;
+ 14e:	21 50       	subi	r18, 0x01	; 1
+ 150:	30 40       	sbci	r19, 0x00	; 0
+		__ticks = 1;
+	else if (__tmp > 65535)
+	{
+		//	__ticks = requested delay in 1/10 ms
+		__ticks = (uint16_t) (__ms * 10.0);
+		while(__ticks)
+ 152:	d1 f7       	brne	.-12     	; 0x148 <main+0x94>
+ 154:	97 01       	movw	r18, r14
+ 156:	d6 cf       	rjmp	.-84     	; 0x104 <main+0x50>
+
+00000158 <_exit>:
+ 158:	f8 94       	cli
+
+0000015a <__stop_program>:
+ 15a:	ff cf       	rjmp	.-2      	; 0x15a <__stop_program>
